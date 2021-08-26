@@ -8,7 +8,7 @@ const PostCard = (props) => {
 
     return(
         <div className={classes.root}>
-            <Link href={`/jobs_search/${props.id}`} className={classes.container}>
+            <Link href={`/jobs_search/${props.id}`} passHref className={classes.container}>
                 <div className={classes.post}>
                     <div className={classes.img_logo}>
                         <img src={props.image} alt="logo" width={50} />

@@ -1,5 +1,10 @@
+// @ts-check
+
+/**
+ * @type {import('next').NextConfig}
+ **/
 module.exports = {
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
-  images: { domains: ['image.freepik.com'] }
+  images: { domains: [] }
 }
