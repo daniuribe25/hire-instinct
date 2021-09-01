@@ -4,6 +4,8 @@ import { CssBaseline, ThemeProvider } from '@material-ui/core'
 import theme from '../styles/theme';
 import React from 'react';
 import type { AppProps /*, AppContext */ } from 'next/app'
+import apolloClient from '../api/gql/apollo-client';
+import { ApolloProvider } from '@apollo/client';
 
 const Instinct = ({ Component, pageProps }: AppProps) => {
 
@@ -15,11 +17,14 @@ const Instinct = ({ Component, pageProps }: AppProps) => {
   }, []);
 
   return (
+
     <ThemeProvider theme={theme}>
-      <Layout>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </Layout>
+      <ApolloProvider client={apolloClient}>
+        <Layout>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </Layout>
+      </ApolloProvider>
     </ThemeProvider>
   )
 }

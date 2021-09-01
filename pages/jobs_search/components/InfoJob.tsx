@@ -1,15 +1,28 @@
 import { Typography } from "@material-ui/core";
+import Image from "next/image";
 import useStyles from "./infoJobStyles";
 
-const InfoJob = (props) => {
+interface InfoJobProps {
+    id: number;
+    image: string;
+    job: string;
+    nameCompany: string;
+    locationJob: string;
+    salary: number;
+    insideDate: number;
+    jobDescription: string;
+    aboutCompany: string;
+}
+
+const InfoJob = (props: InfoJobProps) => {
     const classes = useStyles();
-    
+
     return(
         <div className={classes.root}>
             <div className={classes.container}>
                 <div className={classes.infoToJob}>
                     <div className={classes.imageLogo}>
-                        <img src={props.image} width={50}/>
+                        <Image src={props.image} width={50} height={50} alt="Post logo" />
                     </div>
                     <div className={classes.applyNow}>
                         <Typography variant="h4">{props.job}</Typography>

@@ -1,32 +1,36 @@
 import { Checkbox, FormControlLabel, FormGroup, Link } from "@material-ui/core";
 import { useState } from "react";
 import useStyle from "./signInStyles";
+import { useMutation } from "@apollo/client";
+import { signInMutation } from "../../api/gql/mutations";
+import storage, { AUTH_TOKEN } from "../../utils/storage";
 
 const SignIn = () => {
     const classes = useStyle();
-
-    const [ values, setValues ] = useState({
-        email: '',
-        password: '',
-    });
+    const [ values, setValues ] = useState({ email: '', password: '' });
     const [ checked, setChecked ] = useState(false);
+    const [signInGQL, { loading, error }] = useMutation(signInMutation);
 
     const handlecheck = () => {
         setChecked(!checked);
     }
 
-    const handleSignIn = () => {
-        const users = JSON.parse(localStorage.getItem('users'));
-        const userfound = users.find(us => us.email === values.email && us.password === values.password);
-        if (userfound) {
-            if(checked) {
-                localStorage.setItem('token', JSON.stringify(userfound))
-            } else {
-                sessionStorage.setItem('token', JSON.stringify(userfound));
+    const handleSignIn = async () => {
+        if (!values.email || !values.password) {
+            alert("All fields are required");
+            return;
+        }
+        try {
+            const { data } = await signInGQL({
+                variables: { credentials: values }
+            });
+
+            if (data.authenticate.token) {
+                storage.save(AUTH_TOKEN, data.authenticate.token, !checked);
             }
-        } else {
-            alert('Usuario o contraseña incorrecta');
-        } 
+        } catch(error) {
+            alert(error);
+        }
     }
 
     const handleInputChange = (e) => {
